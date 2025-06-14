@@ -1,81 +1,58 @@
-# CaloriFit - Aplicación de Nutrición y Fitness
+# CaloriFit - Aplicación de Nutrición y Fitness (Estado: 9 Junio 2025)
 
-## Descripción
-CaloriFit es una aplicación móvil de nutrición y fitness que permite al usuario calcular, registrar y monitorear su ingesta calórica, su progreso físico y hábitos alimenticios, con un onboarding personalizado y visual moderno. [cite: 40] Se inspira en apps líderes como Fitia y Eatwise, pero con identidad propia. [cite: 41]
+## 1. Descripción General
+CaloriFit es una aplicación móvil nativa de Android para nutrición y fitness. Permite a los usuarios calcular, registrar y monitorear su ingesta calórica, progreso físico y hábitos alimenticios. La app cuenta con un onboarding personalizado y un diseño visual moderno basado en Material 3.
 
-## Estado Actual del Proyecto (30 de Mayo, 2025)
+## 2. Progreso y Funcionalidades Implementadas
 
-### Funcionalidades y Pantallas Implementadas:
+### 2.1. Configuración del Proyecto y Arquitectura Base
+* **Lenguaje y UI:** Kotlin 100%, Jetpack Compose.
+* **Diseño:** Material 3 (Material You) implementado como base.
+* **Build System:** Gradle con Kotlin DSL (`.kts`) y **Version Catalogs (`libs.versions.toml`)**.
+* **Estructura de Paquetes:** Organizada para MVVM y escalabilidad, con paquetes por feature en `screens` (ej. `login`, `register`, `forgotpassword`).
+* **Dependencias Clave Configuradas:** AndroidX Core, Activity Compose, Lifecycle, Compose UI, Compose Material 3, Navigation Compose.
+* **Diseño Edge-to-Edge:** Habilitado globalmente.
 
-* **Configuración Inicial del Proyecto:**
-    * Proyecto Android configurado con Kotlin, Jetpack Compose y Material 3.
-    * Dependencias gestionadas mediante Version Catalogs (`libs.versions.toml`).
-    * Plugins de Gradle (incluyendo `kotlin-kapt` y `hilt`) configurados.
-* **Estructura de Carpetas:**
-    * Organización de paquetes alineada con la arquitectura MVVM (`screens`, `components`, `ui.theme`, `navigation`, etc.).
-* **Tema de la Aplicación (Branding Básico):**
-    * `Color.kt`: Paleta de colores personalizada de CaloriFit definida (Primario: Azul, Secundario: Verde agua claro, Botón Acción: Verde `#3AC444`, etc.).
-    * `Type.kt`: Escala tipográfica básica de Material 3 configurada.
-    * `Shape.kt`: Formas de componentes (redondeo de esquinas) definidas.
-    * `Theme.kt`: `CaloriFitTheme` aplicando los colores, tipografía y formas.
-* **Diseño Edge-to-Edge:**
-    * Configurado en `MainActivity` para que la UI se dibuje detrás de las barras de sistema.
-* **SplashScreen (`SplashScreen.kt` en `screens.splash`):**
-    * Fondo con degradado vertical personalizado (`CalorifitLightBackground` a `CalorifitGreenSecondary`).
-    * Logo de la aplicación (`ic_logo_calorifit.xml`) centrado.
-    * Animación de aparición (fade-in).
-    * Barra de estado transparente con iconos oscuros.
-    * Navegación automática temporizada a `WelcomeScreen`.
-* **WelcomeScreen (`WelcomeScreen.kt` en `screens.welcome`):**
-    * Fondo con degradado vertical personalizado.
-    * Textos de bienvenida ("Un cuerpo fit empieza...", "Descubre tu mejor versión...").
-    * Logo de la aplicación (`ic_logo_calorifit.xml`) mostrado.
-    * Imagen ilustrativa (`img_healthy_bowl.png`).
-    * Botón principal "Comencemos 👉" con estilo personalizado (color `#3AC444`, forma menos redondeada).
-    * Texto "¿Ya tienes una cuenta? **Inicia sesión**" con la parte "Inicia sesión" clickeable.
-    * `ModalBottomSheet` para opciones de inicio de sesión (se muestra al hacer clic en "Inicia sesión"):
-        * Título "Elige un método para iniciar sesión".
-        * Handle visual en la parte superior del sheet.
-        * Fondo del sheet configurado a `MaterialTheme.colorScheme.surface`.
-        * Botón "Continuar con Google" (con borde para visibilidad, acción placeholder).
-        * Botón "Continuar con Correo" (con icono de email, navega a `LoginScreen`).
-* **LoginScreen (`LoginScreen.kt` en `screens.login`):**
-    * Creado como un placeholder básico.
-* **Navegación Básica (Jetpack Navigation Compose en `MainActivity.kt`):**
-    * `NavHostController` y `NavHost` configurados.
-    * Rutas definidas: `"splash"`, `"welcome"`, `"login"`.
-    * Flujo: `SplashScreen` -> `WelcomeScreen`. Desde `WelcomeScreen`, el link "Inicia sesión" abre el `ModalBottomSheet`, y el botón "Continuar con Correo" navega a `LoginScreen`.
+### 2.2. Tematización (`ui.theme`)
+* **`Color.kt`:** Paleta de colores de branding definida (`CalorifitBluePrimary`, `CalorifitGreenButtonAction`, etc.).
+* **`Theme.kt`:** `CaloriFitTheme` configurado con `lightColorScheme`.
+* **`Type.kt` y `Shape.kt`:** Tipografía y formas base de Material 3.
 
-### Tecnologías Clave Utilizadas (Hasta Ahora):
-* Kotlin
-* Jetpack Compose
-* Material 3 (Componentes, Tematización)
-* Jetpack Navigation Compose
-* Gradle con Version Catalogs (`libs.versions.toml`)
-* Hilt (Configuración inicial en Gradle, aún no usado activamente en el código de la app)
+### 2.3. Pantallas y Navegación (Flujo de Autenticación Completo a Nivel de UI)
+* **`MainActivity.kt`:**
+    * Configura `NavHostController` y `NavHost`.
+    * [cite_start]Rutas actuales: `"splash"`, `"welcome"`, `"login"`, `"register"`, `"forgot_password"`. 
+* **`SplashScreen.kt`:**
+    * [cite_start]Fondo degradado, logo con animación de fade-in y transición automática. 
+* **`WelcomeScreen.kt`:**
+    * UI principal y `ModalBottomSheet` para opciones de login.
+* **`LoginScreen.kt` (`screens.login`):**
+    * UI completa con `Card` elevada, campos de email/contraseña y toggle de visibilidad.
+    * Navegación a las pantallas de registro y olvido de contraseña.
+* **`ForgotPasswordScreen.kt` (`screens.forgotpassword`):**
+    * UI completa con `TopAppBar` transparente y botón de retroceso `AutoMirrored`.
+    * **Confirmación en pantalla:** Usa un `AlertDialog` para notificar al usuario que el enlace fue enviado, en lugar de una pantalla nueva.
+    * **Lógica de Reenvío:** Incluye un contador de 60 segundos y la opción de "Reenviar Correo", que aparece después del primer intento.
+* **`RegisterScreen.kt` (`screens.register`):**
+    * UI completa basada en el mockup `LoginFrame-3.jpg`.
+    * Campos para Nombre, Email, Contraseña y Confirmar Contraseña.
+    * **Validación de Contraseña en Tiempo Real:**
+        * Muestra los requisitos de la contraseña (longitud, mayúscula, número) solo cuando el campo tiene el foco, usando `onFocusChanged`.
+        * Los requisitos cambian de icono y color (de ❌ a ✔️) a medida que se cumplen.
+        * El campo "Confirmar contraseña" muestra un mensaje de error y se marca en rojo si no coincide con la contraseña.
+    * `Checkbox` con enlaces clickeables para "Términos y Condiciones" y "Política de Privacidad".
+    * El botón "Crear cuenta" se habilita dinámicamente solo cuando todas las validaciones son correctas (`derivedStateOf`).
 
-### Decisiones de Diseño y Configuración Clave:
-* Prioridad a los mockups de Figma del usuario para la UI.
-* Uso de `WindowCompat.setDecorFitsSystemWindows(window, false)` para UI Edge-to-Edge.
-* Manejo de la visibilidad de iconos de la barra de estado (`isAppearanceLightStatusBars`).
-* Solución de problemas de Gradle relacionados con `kotlin-kapt` y Hilt mediante la configuración de plugins y Version Catalogs.
-* Uso de `LinkAnnotation` para texto parcialmente clickeable.
-* Implementación de `ModalBottomSheet` para opciones de login.
-* Imágenes/Logos: `ic_logo_calorifit.xml` (logo app), `img_healthy_bowl.png` (welcome), `ic_logo_google_g.xml` (logo Google).
+### 2.4. Decisiones de Diseño y Buenas Prácticas Aplicadas
+* **Consistencia de UI:** Se mantiene un estilo visual coherente en todas las pantallas de autenticación.
+* **Manejo de Estado de UI:** Uso de `rememberSaveable` para persistir el estado de los formularios, `derivedStateOf` para validaciones complejas y `mutableIntStateOf` para optimización de primitivos.
+* **UX Moderna:** Implementación de `LinkAnnotation` para textos parcialmente clickeables, `imePadding()` para manejar el teclado, y feedback visual en tiempo real para el usuario.
+* **Componentes Reutilizables:** Creación de un Composable `PasswordRequirement` para los textos de ayuda de la contraseña.
+* **Internacionalización:** Uso de iconos `AutoMirrored` (ej. `ArrowBack`) para un correcto funcionamiento en diseños RTL.
 
-## Próximos Pasos Inmediatos:
-
-1.  **WelcomeScreen:**
-    * Implementar la acción del botón "Comencemos 👉" para navegar al flujo de Onboarding.
-    * Implementar la lógica real del botón "Continuar con Google" (integración con Firebase Auth).
-2.  **LoginScreen (`LoginScreen.kt`):**
-    * Diseñar e implementar la UI completa según las especificaciones (card elevada, campos de email/contraseña, botón de login, links secundarios).
-    * Implementar la lógica de inicio de sesión con Firebase Auth (email/contraseña).
-3.  **OnboardingScreen:**
-    * Diseñar e implementar la primera pantalla del flujo de onboarding multipaso.
-    * Configurar la navegación hacia y a través de los pasos del onboarding.
-4.  **Revisar y Refinar:**
-    * Ajustar estilos de texto (tipografía) y formas si es necesario.
-    * Verificar la consistencia del branding.
-
----
+## 3. Próximos Pasos Inmediatos
+1.  **OnboardingScreen:**
+    * [cite_start]Diseñar e implementar el flujo multipaso para la recolección de datos del usuario (objetivos, género, edad, etc.). 
+    * Conectar la navegación desde el botón "Comencemos 👉" en `WelcomeScreen`.
+2.  **Lógica de Backend con Firebase:**
+    * [cite_start]Integrar Firebase Authentication para implementar el registro, inicio de sesión (email/password, Google), y la funcionalidad de restablecer contraseña.

@@ -97,13 +97,22 @@ fun WelcomeScreen(navController: NavHostController) {
             Button(
                 onClick = {
                     println("Botón Comencemos presionado! Navegando a Onboarding...")
-                    // navController.navigate("onboarding")
+                    // Simplemente quita los '//' de la siguiente línea
+                    navController.navigate("onboarding")
                 },
-                modifier = Modifier.fillMaxWidth().height(56.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
                 shape = MaterialTheme.shapes.medium,
-                colors = ButtonDefaults.buttonColors( containerColor = CalorifitGreenButtonAction, contentColor = Color.White)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = CalorifitGreenButtonAction,
+                    contentColor = Color.White
+                )
             ) {
-                Text( "Comencemos 👉", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
+                Text(
+                    "Comencemos 👉",
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                )
             }
 
             Spacer(modifier = Modifier.height(24.dp))
